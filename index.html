@@ -1,0 +1,118 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<body style="
+    margin: 0;
+    min-height: 100vh;
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBsWxNR3-dmAwkyLS3DxCMa2_3QIVYQySzia7dmFYu5g&s=10');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+">
+  
+```html
+<h1 style="text-align:center; color:white;">
+    tsubasasle
+</h1>
+
+<div style="text-align: center;">
+
+<input id="letter1" maxlength="1" style="width:50px; height:50px; font-size:40px; text-align:center;">
+
+<input id="letter2" maxlength="1" style="width:50px; height:50px; font-size:40px; text-align:center;">
+
+<input id="letter3" maxlength="1" style="width:50px; height:50px; font-size:40px; text-align:center;">
+
+<input id="letter4" maxlength="1" style="width:50px; height:50px; font-size:40px; text-align:center;">
+
+<input id="letter5" maxlength="1" style="width:50px; height:50px; font-size:40px; text-align:center;">
+
+<input id="letter6" maxlength="1" style="width:50px; height:50px; font-size:40px; text-align:center;">
+
+<input id="letter7" maxlength="1" style="width:50px; height:50px; font-size:40px; text-align:center;">
+
+</div>
+
+<br>
+
+<div style="text-align: center;">
+    <button onclick="checkWord()">Guess</button>
+</div>
+
+<p id="a" style="text-align:center; color:white; font-size:30px;"></p>
+
+
+<script>
+
+function checkWord() {
+
+    let answer = "tsubasa";
+
+    let guess =
+        document.getElementById("letter1").value.toLowerCase() +
+        document.getElementById("letter2").value.toLowerCase() +
+        document.getElementById("letter3").value.toLowerCase() +
+        document.getElementById("letter4").value.toLowerCase() +
+        document.getElementById("letter5").value.toLowerCase() +
+        document.getElementById("letter6").value.toLowerCase() +
+        document.getElementById("letter7").value.toLowerCase();
+
+    let boxes = [
+        document.getElementById("letter1"),
+        document.getElementById("letter2"),
+        document.getElementById("letter3"),
+        document.getElementById("letter4"),
+        document.getElementById("letter5"),
+        document.getElementById("letter6"),
+        document.getElementById("letter7")
+    ];
+
+
+    // Check each letter
+
+    for (let i = 0; i < 7; i++) {
+
+        if (guess[i] == answer[i]) {
+
+            // Correct letter and position
+            boxes[i].style.backgroundColor = "green";
+            boxes[i].style.color = "white";
+
+        } else if (answer.includes(guess[i])) {
+
+            // Letter is in the word but wrong position
+            boxes[i].style.backgroundColor = "gold";
+            boxes[i].style.color = "white";
+
+        } else {
+
+            // Letter isn't in the word
+            boxes[i].style.backgroundColor = "gray";
+            boxes[i].style.color = "white";
+        }
+    }
+
+
+    // Check if the whole word is correct
+
+    if (guess == answer) {
+
+        document.getElementById("a").innerHTML = "YOU GOT TSUBASA!";
+        document.getElementById("a").style.color = "green";
+
+    } else {
+
+        document.getElementById("a").innerHTML = "Wrong guess!";
+        document.getElementById("a").style.color = "red";
+
+    }
+
+}
+
+</script>
+```
