@@ -1,5 +1,4 @@
 
-
 bertgames
 
 <head>
@@ -39,6 +38,7 @@ bertgames
 let guesses = 0;
 let maxGuesses = 5;
 let gameOver = false;
+
 let game = document.getElementById("game");
 
 addRow();
@@ -80,6 +80,13 @@ function checkWord() {
     let guess = "";
 
     for (let i = 0; i < 7; i++) {
+
+        if (boxes[i].value == "") {
+            document.getElementById("a").innerHTML =
+                "Fill in all 7 letters!";
+            return;
+        }
+
         guess += boxes[i].value.toLowerCase();
     }
 
@@ -116,7 +123,7 @@ function checkWord() {
         return;
     }
 
-    if (guesses >= maxGuesses) {
+    if (guesses == maxGuesses) {
 
         document.getElementById("a").innerHTML =
             "The answer was Trooper.";
@@ -128,9 +135,15 @@ function checkWord() {
         return;
     }
 
+    document.getElementById("a").innerHTML =
+        "Dumbass guess! " + (maxGuesses - guesses) + " guesses left.";
+
+    document.getElementById("a").style.color = "red";
+
     addRow();
 }
 
 </script>
 
 </body>
+
