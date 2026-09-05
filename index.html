@@ -73,32 +73,30 @@ function checkWord() {
     ];
 
 
-    // Check each letter
+   
 
     for (let i = 0; i < 7; i++) {
 
         if (guess[i] == answer[i]) {
 
-            // Correct letter and position
             boxes[i].style.backgroundColor = "green";
             boxes[i].style.color = "white";
 
         } else if (answer.includes(guess[i])) {
 
-            // Letter is in the word but wrong position
+          
             boxes[i].style.backgroundColor = "gold";
             boxes[i].style.color = "white";
 
         } else {
 
-            // Letter isn't in the word
+          
             boxes[i].style.backgroundColor = "gray";
             boxes[i].style.color = "white";
         }
     }
 
 
-    // Check if the whole word is correct
 
     if (guess == answer) {
 
@@ -115,4 +113,4 @@ function checkWord() {
 }
 
 </script>
-```
+
