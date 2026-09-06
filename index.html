@@ -1,47 +1,183 @@
-
-bertgames
-
+BERTGAMES
 <head>
 </head>
 
 <body style="
     margin: 0;
     min-height: 100vh;
-    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBsWxNR3-dmAwkyLS3DxCMa2_3QIVYQySzia7dmFYu5g&s=10');
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl6wTS9E7BGQR8UZsW9ThFHanCcXJbvz9kMQLKiNK8jw&s=10);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
 ">
 
-<h1 style="text-align:center; color:white;">
-    tsubasasle
-</h1>
 
-<div id="game" style="text-align:center;">
+
+<div id="titleScreen" style="
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Sz8hkuExPt0XCCp4cuKuLIH0OSIY-ju1KaNF-ErbCA&s=10);
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+">
+
+    <h1 style="
+        color:white;
+        font-size:60px;
+    ">
+        TSUBASASLE
+    </h1>
+
+
+  
+
+    <div onclick="startGame()" style="
+        width:300px;
+        height:100px;
+        background-color:white;
+        border:5px solid black;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        cursor:pointer;
+        font-size:35px;
+        font-weight:bold;
+    ">
+        tsubasale
+    </div>
+
+
+
+
+    <div onclick="startOtherGame()" style="
+        width:300px;
+        height:100px;
+        background-color:white;
+        border:5px solid black;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        cursor:pointer;
+        font-size:35px;
+        font-weight:bold;
+        margin-top:20px;
+    ">
+        connections
+    </div>
+
 </div>
 
-<br>
 
-<div style="text-align:center;">
-    <button onclick="checkWord()">Guess</button>
+
+<div id="gameScreen" style="display:none;">
+
+    <h1 style="text-align:center; color:white;">
+        tsubasasle
+    </h1>
+
+    <div id="game" style="text-align:center;">
+    </div>
+
+    <br>
+
+    <div style="text-align:center;">
+        <button onclick="checkWord()">Guess</button>
+    </div>
+
+    <p id="a" style="
+        text-align:center;
+        color:white;
+        font-size:30px;
+    "></p>
+
 </div>
 
-<p id="a" style="
-    text-align:center;
-    color:white;
-    font-size:30px;
-"></p>
+
+
+<div id="otherGameScreen" style="display:none;">
+
+    <h1 style="
+        text-align:center;
+        color:white;
+        font-size:50;
+    ">
+        connections
+    </h1>
+
+    <div id="connections" style="
+        width:600px;
+        margin:auto;
+        display:grid;
+        grid-template-columns:repeat(4, 1fr);
+        gap:8px;
+    ">
+    </div>
+
+
+    <br>
+
+    <div style="text-align:center;">
+
+        <button onclick="submitConnection()" style="
+            font-size:20px;
+            padding:10px 30px;
+            cursor:pointer;
+        ">
+            guess
+        </button>
+
+    </div>
+
+
+    <p id="result" style="
+        text-align:center;
+        color:white;
+        font-size:30px;
+    ">
+    </p>
+
+</div>
+
+
 
 <script>
 
 let guesses = 0;
 let maxGuesses = 5;
 let gameOver = false;
-
 let game = document.getElementById("game");
 
-addRow();
+
+
+
+function startGame() {
+
+    document.getElementById("titleScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+
+    addRow();
+}
+
+
+
+
+function startOtherGame() {
+
+    document.getElementById("titleScreen").style.display = "none";
+    document.getElementById("otherGameScreen").style.display = "block";
+
+}
+
+
+
 
 function addRow() {
 
@@ -65,13 +201,16 @@ function addRow() {
     game.appendChild(row);
 }
 
+
+
+
 function checkWord() {
 
     if (gameOver) {
         return;
     }
 
-    let answer = "trooper";
+    let answer = "tsubasa";
 
     let rows = game.children;
     let currentRow = rows[rows.length - 1];
@@ -80,13 +219,6 @@ function checkWord() {
     let guess = "";
 
     for (let i = 0; i < 7; i++) {
-
-        if (boxes[i].value == "") {
-            document.getElementById("a").innerHTML =
-                "Fill in all 7 letters!";
-            return;
-        }
-
         guess += boxes[i].value.toLowerCase();
     }
 
@@ -123,10 +255,10 @@ function checkWord() {
         return;
     }
 
-    if (guesses == maxGuesses) {
+    if (guesses >= maxGuesses) {
 
         document.getElementById("a").innerHTML =
-            "The answer was Trooper.";
+            "The answer was Tsubasa dumbass.";
 
         document.getElementById("a").style.color = "black";
 
@@ -135,15 +267,308 @@ function checkWord() {
         return;
     }
 
-    document.getElementById("a").innerHTML =
-        "Dumbass guess! " + (maxGuesses - guesses) + " guesses left.";
-
-    document.getElementById("a").style.color = "red";
-
     addRow();
 }
 
+let selected = [];
+
+let mistakes = 0;
+
+let maxMistakes = 4;
+
+
+let words = [
+    "PEACH",
+    "BUTTER",
+    "PECAN",
+    "EGGS",
+    "GASSY",
+    "SAUCY",
+    "CUTIE",
+    "POOPY",
+    "PIZZA",
+    "TACO",
+    "SANDWICH",
+    "ROTISSERIE CHICKEN",
+    "LEGO",
+    "PC",
+    "AXE",
+    "WEAPONS OF FOAM"
+];
+
+
+let groups = [
+
+    {
+        name: "WHATS PECAN PIE MADE OF",
+        words: ["PECAN", "PEACH", "EGGS", "BUTTER"]
+    },
+
+    {
+        name: "****T",
+        words: ["POOPY", "CUTIE", "SAUCY", "GASSY"]
+    },
+
+    {
+        name: "PARTY FOOD",
+        words: ["TACO", "SANDWICH", "PIZZA", "ROTISSERIE CHICKEN"]
+    },
+
+    {
+        name: "THINGS IN TSUBASA'S ROOM",
+        words: ["AXE", "WEAPONS OF FOAM", "LEGO", "PC"]
+    }
+
+];
+
+
+let connections = document.getElementById("connections");
+
+
+words.sort(function() {
+    return Math.random() - 0.5;
+});
+
+
+for (let i = 0; i < words.length; i++) {
+
+    let box = document.createElement("div");
+
+    box.innerHTML = words[i];
+
+    box.style.backgroundColor = "white";
+    box.style.color = "black";
+
+    box.style.height = "100px";
+
+    box.style.display = "flex";
+    box.style.justifyContent = "center";
+    box.style.alignItems = "center";
+
+    box.style.fontSize = "17px";
+    box.style.fontWeight = "bold";
+
+    box.style.cursor = "pointer";
+
+
+    box.onclick = function() {
+
+        selectBox(box, words[i]);
+
+    };
+
+
+    connections.appendChild(box);
+
+}
+
+
+function selectBox(box, word) {
+
+    if (selected.includes(word)) {
+
+        selected = selected.filter(function(item) {
+            return item != word;
+        });
+
+        box.style.backgroundColor = "white";
+        box.style.color = "black";
+
+    }
+
+    else {
+
+        if (selected.length >= 4) {
+            return;
+        }
+
+        selected.push(word);
+
+        box.style.backgroundColor = "red";
+        box.style.color = "purple";
+
+    }
+
+}
+
+
+function submitConnection() {
+
+    if (selected.length != 4) {
+
+        document.getElementById("result").innerHTML =
+            "Select 4 words.";
+
+        return;
+
+    }
+
+
+    let correct = false;
+
+    let correctGroup = "";
+
+
+    for (let group of groups) {
+
+        if (
+            selected.every(function(word) {
+                return group.words.includes(word);
+            })
+        ) {
+
+            correct = true;
+
+            correctGroup = group.name;
+
+            break;
+
+        }
+
+    }
+
+
+    if (correct) {
+
+        document.getElementById("result").innerHTML =
+            "CORRECT!";
+
+        removeSelected(correctGroup);
+
+        selected = [];
+
+    }
+
+    else {
+
+        mistakes++;
+
+        document.getElementById("mistakes").innerHTML =
+            "Mistakes: " + mistakes + " / " + maxMistakes;
+
+        document.getElementById("result").innerHTML =
+            "Wrong group.";
+
+        deselectAll();
+
+
+        if (mistakes >= maxMistakes) {
+
+            document.getElementById("result").innerHTML =
+                "Game Over!";
+
+            disableGame();
+
+        }
+
+    }
+
+}
+
+
+function removeSelected(correctGroup) {
+
+    let boxes = connections.children;
+
+
+    for (let box of boxes) {
+
+        if (selected.includes(box.innerHTML)) {
+
+            box.style.display = "none";
+
+        }
+
+    }
+
+
+    let category = document.createElement("div");
+
+    category.innerHTML = correctGroup;
+
+    category.style.gridColumn = "1 / 5";
+
+    category.style.height = "100px";
+
+    category.style.backgroundColor = "white";
+
+    category.style.color = "black";
+
+    category.style.display = "flex";
+
+    category.style.justifyContent = "center";
+
+    category.style.alignItems = "center";
+
+    category.style.fontSize = "25px";
+
+    category.style.fontWeight = "bold";
+
+
+    connections.prepend(category);
+
+
+    let remaining = 0;
+
+
+    for (let box of boxes) {
+
+        if (box.style.display != "none") {
+
+            remaining++;
+
+        }
+
+    }
+
+
+    if (remaining == 0) {
+
+        document.getElementById("result").innerHTML =
+            "YOU WON!";
+
+    }
+
+}
+
+
+function deselectAll() {
+
+    let boxes = connections.children;
+
+
+    for (let box of boxes) {
+
+        if (selected.includes(box.innerHTML)) {
+
+            box.style.backgroundColor = "white";
+
+            box.style.color = "black";
+
+        }
+
+    }
+
+
+    selected = [];
+
+}
+
+
+function disableGame() {
+
+    let boxes = connections.children;
+
+
+    for (let box of boxes) {
+
+        box.style.cursor = "default";
+
+        box.onclick = null;
+
+    }
+
+}
+
 </script>
-
 </body>
-
